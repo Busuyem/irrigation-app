@@ -2,6 +2,9 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ZoneController;
+use App\Http\Controllers\ScheduleController;
+use App\Http\Controllers\WateringEventController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,3 +20,20 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::apiResource('zones', ZoneController::class);
+
+Route::prefix('zones/{zone}/schedules')->group(function () {
+    Route::get('/', [ScheduleController::class, 'index']);
+    Route::get('{schedule}', [ScheduleController::class, 'show']);
+    Route::post('/', [ScheduleController::class, 'store']);
+    Route::put('{schedule}', [ScheduleController::class, 'update']);
+    Route::delete('{schedule}', [ScheduleController::class, 'destroy']);
+});
+
+Route::prefix('zones/{zone}/watering-events')->group(function () {
+    Route::post('start', [WateringEventController::class, 'start']);
+    Route::post('stop', [WateringEventController::class, 'stop']);
+    Route::get('status', [WateringEventController::class, 'status']);
+});
+
