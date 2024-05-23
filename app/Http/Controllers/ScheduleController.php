@@ -81,8 +81,8 @@ class ScheduleController extends Controller
                 $schedule = $zone->schedules()->create($validatedData);
     
                 // Send notification email
-                //Mail::to('admin@cashcardng.com')->send(new ScheduleNotification($schedule));
-        
+                Mail::to('admin@cashcardng.com')->send(new ScheduleNotification($schedule));
+                
                 return response()->json([
                     'status_code' => 201,
                     'message' => 'Success!',
@@ -114,7 +114,7 @@ class ScheduleController extends Controller
                 ]);
             }else{
                 $schedule->update($validatedData);
-                //Mail::to('admin@cashcardng.com')->send(new ScheduleNotification($schedule));
+                Mail::to('admin@cashcardng.com')->send(new ScheduleNotification($schedule));
                 return response()->json([
                     'status_code' => '200',
                     'message' => 'Success!',
