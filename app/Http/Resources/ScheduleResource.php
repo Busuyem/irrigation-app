@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ZoneResource extends JsonResource
+class ScheduleResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,8 +16,10 @@ class ZoneResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'name' => $this->name,
-            'area' => $this->area
+            'zone_id' => $this->zone_id,
+            'start_time' => $this->start_time,
+            'duration' => $this->duration,
+            'days_of_week' => array($this->days_of_week)
         ];
     }
 }

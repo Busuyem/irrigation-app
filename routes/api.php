@@ -25,8 +25,8 @@ Route::apiResource('zones', ZoneController::class);
 
 Route::prefix('zones/{zone}/schedules')->group(function () {
     Route::get('/', [ScheduleController::class, 'index']);
-    Route::get('{schedule}', [ScheduleController::class, 'show']);
     Route::post('/', [ScheduleController::class, 'store']);
+    Route::get('{schedule}', [ScheduleController::class, 'show']);
     Route::put('{schedule}', [ScheduleController::class, 'update']);
     Route::delete('{schedule}', [ScheduleController::class, 'destroy']);
 });
