@@ -48,7 +48,8 @@ class WateringEventController extends Controller
                 $event = $zone->wateringEvents()->create(['status' => 'stopped']);
                 return response()->json([
                     'status_code' => 201,
-                    'message' => 'Success!'
+                    'message' => 'Success!',
+                    'data' => new WateringEventResource($event)
                 ]);
             }
         }catch(Throwable $e){
