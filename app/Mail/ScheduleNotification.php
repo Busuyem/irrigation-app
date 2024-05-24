@@ -6,6 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
+use App\Models\Schedule;
 
 class ScheduleNotification extends Mailable
 {
@@ -16,9 +17,12 @@ class ScheduleNotification extends Mailable
      *
      * @return void
      */
-    public function __construct()
+
+    protected $chedule;
+
+    public function __construct(Schedule $schedule)
     {
-        //
+        $this->schedule = $schedule;
     }
 
     /**
@@ -28,6 +32,8 @@ class ScheduleNotification extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails.schedules.notification');
+        $schedule = $this->schedule;
+
+        return $this->markdown('emails.schedules.notification', compact('schedule'));
     }
 }
