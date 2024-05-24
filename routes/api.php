@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ZoneController;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\WateringEventController;
+use App\Http\Controllers\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,23 +18,31 @@ use App\Http\Controllers\WateringEventController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
 
-Route::apiResource('zones', ZoneController::class);
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login', [AuthController::class, 'login']);
 
-Route::prefix('zones/{zone}/schedules')->group(function () {
-    Route::get('/', [ScheduleController::class, 'index']);
-    Route::post('/', [ScheduleController::class, 'store']);
-    Route::get('{schedule}', [ScheduleController::class, 'show']);
-    Route::put('{schedule}', [ScheduleController::class, 'update']);
-    Route::delete('{schedule}', [ScheduleController::class, 'destroy']);
-});
+Route::middleware('auth:sanctum')->group(function(){
+    Route::post('/logout', [AuthController::class, 'logout']);
+    Route::apiResource('zones', ZoneController::class);
 
-Route::prefix('zones/{zone}/watering-events')->group(function () {
-    Route::post('start', [WateringEventController::class, 'start']);
-    Route::post('stop', [WateringEventController::class, 'stop']);
-    Route::get('status', [WateringEventController::class, 'status']);
+    Route::prefix('zones/{zone}/schedules')->group(function () {
+        Route::get('/', [ScheduleController::class, 'index']);
+        Route::post('/', [ScheduleController::class, 'store']);
+        Route::get('{schedule}', [ScheduleController::class, 'show']);
+        Route::put('{schedule}', [ScheduleController::class, 'update']);
+        Route::delete('{schedule}', [ScheduleController::class, 'destroy']);
+    });
+
+    Route::prefix('zones/{zone}/watering-events')->group(function () {
+        Route::post('start', [WateringEventController::class, 'start']);
+        Route::post('stop', [WateringEventController::class, 'stop']);
+        Route::get('status', [WateringEventController::class, 'status']);
+    });
+
+
 });
 
